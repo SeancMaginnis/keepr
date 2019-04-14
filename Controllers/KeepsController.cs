@@ -1,53 +1,68 @@
 using System.Collections.Generic;
+using keepr.Models;
 using keepr.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace keepr.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class KeepsController : ControllerBase
+  [Route("api/[controller]")]
+  [ApiController]
+  public class KeepsController : ControllerBase
+  {
+    private readonly KeepsRepository _kr;
+
+    public KeepsController(KeepsRepository kr)
     {
-        private readonly KeepsRepository _ks;
-
-        public KeepsController(KeepsRepository ks)
-        {
-            _ks = ks;
-        }
-        
-        //GET api/keeps
-        [HttpGet]
-
-        public ActionResult<IEnumerable<Keep>> Get()
-        {
-            return Ok(_ks.GetAll());
-        }
-        
-        //GET api/keeps/:id
-        [HttpGet("{id}")]
-        public ActionResult<Keep> GetOne(string id)
-        {
-            return _ks.GetbyId(id);
-        }
-
-        [HttpPost]
-        public ActionResult<Keep> Create([FromBody] Keep newKeep)
-        {
-            return _ks.CreateKeep(newKeep);
-        }
-
-        [HttpDelete("{id}")]
-        public ActionResult<Keep> Delete(string id)
-        {
-            bool wasSuccessful = _ks.DeleteKeep(id);
-            if (wasSuccessful)
-            {
-                return Ok();
-            }
-
-            return BadRequest();
-        }
-            
+      _kr = kr;
     }
+
+    //GET api/keeps
+    [HttpGet]
+
+    public ActionResult<IEnumerable<Keep>> Get()
+    {
+      IEnumerable<Keep> allKeeps = _kr.GetAll();
+      if (allKeeps == null)
+      {
+        return BadRequest();
+      }
+      return Ok(allKeeps);
+    }
+
+    //GET api/keeps/:id
+    [HttpGet("{id}")]
+    public ActionResult<Keep> GetOne(int id)
+    {
+      Keep foundKeep = _kr.GetbyId(id);
+      if (foundKeep == null)
+      {
+        return BadRequest();
+      }
+      return Ok(foundKeep);
+    }
+
+    [HttpPost]
+    public ActionResult<Keep> Create([FromBody] Keep keep)
+    {
+      Keep newKeep = _kr.CreateKeep(keep);
+      if (newKeep == null) { return BadRequest("haters gonna hate"); }
+      return Ok(newKeep);
+    }
+
+    [HttpDelete("{id}")]
+    public ActionResult<Keep> Delete(int id)
+    {
+      bool wasSuccessful = _kr.Delete(id);
+      if (wasSuccessful)
+      {
+        return Ok();
+      }
+
+      return BadRequest();
+    }
+
+  }
 }

@@ -21,14 +21,22 @@ let api = Axios.create({
 
 export default new Vuex.Store({
   state: {
-    user: {}
+    user: {},
+    keeps: [],
   },
   mutations: {
     setUser(state, user) {
       state.user = user
-    }
+    },
+    setKeeps(state, keeps) {
+      state.keeps = keeps
+    },
+    addKeep(state, keep) {
+      state.keeps.push(keep)
+    },
   },
   actions: {
+    //#region --Login--
     register({ commit, dispatch }, newUser) {
       auth.post('register', newUser)
         .then(res => {
@@ -58,6 +66,27 @@ export default new Vuex.Store({
         .catch(e => {
           console.log('Login Failed')
         })
-    }
+    },
+    //#endregion
+    //#region --Keeps--
+    createKeep({ commit, dispatch }, payload) {
+      api.post('keeps', payload)
+        .then(res => {
+          commit("addKeep", res.data)
+        })
+    },
+    getKeeps({ commit, dispatch }) {
+      api.get('keeps/')
+        .then(res => {
+          commit('setKeeps', res.data)
+        })
+    },
+    deleteKeep({ commit, dispatch }, payload) {
+      api.delete('keeps/' + payload)
+        .then(res => {
+          dispatch('getKeeps')
+        })
+    },
+    //#endregion
   }
 })

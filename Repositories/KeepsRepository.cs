@@ -1,27 +1,54 @@
+using keepr.Models;
 using Microsoft.AspNetCore.Mvc;
+using Dapper;
+using System;
+using System.Collections.Generic;
+using System.Data;
 
 namespace keepr.Repositories
 {
-    public class KeepsRepository
+  public class KeepsRepository
+  {
+
+    private readonly IDbConnection _db;
+
+    public KeepsRepository(IDbConnection db)
     {
-        public object GetAll()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public ActionResult<Keep> GetbyId(string id)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public ActionResult<Keep> CreateKeep(Keep newKeep)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool DeleteKeep(string id)
-        {
-            throw new System.NotImplementedException();
-        }
+      _db = db;
     }
+    public IEnumerable<Keep> GetAll()
+    {
+      return _db.Query<Keep>("SELECT * FROM keeps");
+    }
+
+    public Keep GetbyId(int Id)
+    {
+      return _db.QueryFirstOrDefault<Keep>("SELECT * FROM keeps WHERE id = @Id", new { Id });
+    }
+
+    public Keep CreateKeep(Keep keep)
+    {
+      try
+      {
+        int id = _db.ExecuteScalar<int>(@"
+          INSERT INTO keeps (name, description, img)
+          VALUES (@Name, @Description, @Img);
+          SELECT LAST_INSERT_ID();
+          ", keep);
+        keep.Id = id;
+        return keep;
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e);
+        return null;
+      }
+    }
+
+    public bool Delete(int id)
+    {
+      int success = _db.Execute("DELETE FROM keeps WHERE id = @id", new { id });
+      return success > 0;
+    }
+  }
 }
