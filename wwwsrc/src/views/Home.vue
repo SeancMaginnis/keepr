@@ -10,7 +10,10 @@
     mounted() {
       //blocks users not logged in
       if (!this.$store.state.user.id) {
-        this.$router.push({ name: "login" });
+        this.$router.push({ name: "login" })
+      }
+      else{
+        this.$router.push({name: "keeps"})
       }
     }
   };
