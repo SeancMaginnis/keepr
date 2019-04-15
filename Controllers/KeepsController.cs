@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace keepr.Controllers
 {
@@ -45,10 +46,12 @@ namespace keepr.Controllers
     }
 
     [HttpPost]
+    [Authorize]
     public ActionResult<Keep> Create([FromBody] Keep keep)
     {
+      keep.UserId = HttpContext.User.Identity.Name;
       Keep newKeep = _kr.CreateKeep(keep);
-      if (newKeep == null) { return BadRequest("haters gonna hate"); }
+      if (newKeep == null) { return BadRequest("Whoops SOmething didn't work"); }
       return Ok(newKeep);
     }
 

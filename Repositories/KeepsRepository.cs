@@ -1,3 +1,5 @@
+using System;
+using keepr.Models;
 using keepr.Models;
 using Microsoft.AspNetCore.Mvc;
 using Dapper;
@@ -23,6 +25,8 @@ namespace keepr.Repositories
 
     public Keep GetbyId(int Id)
     {
+
+
       return _db.QueryFirstOrDefault<Keep>("SELECT * FROM keeps WHERE id = @Id", new { Id });
     }
 
@@ -31,8 +35,8 @@ namespace keepr.Repositories
       try
       {
         int id = _db.ExecuteScalar<int>(@"
-          INSERT INTO keeps (name, description, img)
-          VALUES (@Name, @Description, @Img);
+          INSERT INTO keeps (name, description, img, userId)
+          VALUES (@Name, @Description, @Img, @UserId);
           SELECT LAST_INSERT_ID();
           ", keep);
         keep.Id = id;

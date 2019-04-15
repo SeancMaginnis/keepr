@@ -1,5 +1,5 @@
 <template>
-    <div class="login">
+    <div class="login container-fluid vh-100">
         <form v-if="loginForm" @submit.prevent="loginUser">
             <input type="email" v-model="creds.email" placeholder="email">
             <input type="password" v-model="creds.password" placeholder="password">
@@ -15,15 +15,22 @@
             <p v-if="loginForm">No account Click to Register</p>
             <p v-else>Already have an account click to Login</p>
         </div>
+        <div class="container-fluid">
+            <Keep v-for="keep in keeps" :keep="keep"></Keep>
+        </div>
     </div>
 </template>
 
 <script>
+    import Keep from "../components/Keep";
+
     export default {
         name: "login",
+        components:{Keep},
         mounted() {
             //checks for valid session
             this.$store.dispatch("authenticate");
+            this.$store.dispatch("getKeeps");
         },
         data() {
             return {
@@ -46,6 +53,17 @@
             loginUser() {
                 this.$store.dispatch("login", this.creds);
             }
-        }
+        },
+        computed: {
+            keeps() {
+                return this.$store.state.keeps
+            },
+        },
     };
 </script>
+
+<style>
+    .login{
+        background-image: url("https://images.unsplash.com/photo-1551300338-2a3557b14a71?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1405&q=80");
+    }
+</style>

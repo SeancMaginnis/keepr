@@ -42,6 +42,7 @@ namespace keepr.Controllers
     }
 
     [HttpDelete("{id}")]
+
     public ActionResult<Vault> Delete(int id)
     {
       bool wasSuccessful = _vr.Delete(id);

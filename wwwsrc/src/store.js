@@ -23,6 +23,7 @@ export default new Vuex.Store({
   state: {
     user: {},
     keeps: [],
+    vaults: [],
   },
   mutations: {
     setUser(state, user) {
@@ -34,6 +35,12 @@ export default new Vuex.Store({
     addKeep(state, keep) {
       state.keeps.push(keep)
     },
+    setMyVaults(state, vaults){
+      state.vaults = vaults
+    },
+    addVault(state, vualt){
+      state.vault.push(vault)
+    }
   },
   actions: {
     //#region --Login--
@@ -67,9 +74,23 @@ export default new Vuex.Store({
           console.log('Login Failed')
         })
     },
+    logout({commit, dispatch}, creds){
+      auth.delete('logout')
+          .then(res=>{
+            commit('setUser', res.data)
+            router.push({name: 'login'})
+          })
+    },
+    /*getUser({commit, dispatch}, payload){
+      auth.get('authenticate')
+          .then(res=>{
+            commit('setUsers', res.data)
+          })
+    },*/
     //#endregion
     //#region --Keeps--
     createKeep({ commit, dispatch }, payload) {
+      debugger
       api.post('keeps', payload)
         .then(res => {
           commit("addKeep", res.data)
@@ -87,6 +108,25 @@ export default new Vuex.Store({
           dispatch('getKeeps')
         })
     },
+    //#endregion
+    //#region --Vaults--
+    createVault({commit, dispatch}, payload){
+      api.post('vaults', payload)
+          .then(res =>{
+            commit('addVault', res.data)
+          })
+    },
+    getMyVaults({commit, dispatch}, myVaults){
+      let check = 'vaults'
+      if(myVaults){
+        check += '/myVaults'
+      }
+      api.get(check)
+          .then(res=>{
+            commit('setVaults', res.data)
+          })
+    },
+    
     //#endregion
   }
 })
