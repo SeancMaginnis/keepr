@@ -2,8 +2,10 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Axios from 'axios'
 import router from './router'
+import VueDragDrop from 'vue-drag-drop';
 
 Vue.use(Vuex)
+Vue.use(VueDragDrop)
 
 let baseUrl = location.host.includes('localhost') ? '//localhost:5000/' : '/'
 
@@ -35,10 +37,10 @@ export default new Vuex.Store({
     addKeep(state, keep) {
       state.keeps.push(keep)
     },
-    setMyVaults(state, vaults){
+    setMyVaults(state, vaults) {
       state.vaults = vaults
     },
-    addVault(state, vualt){
+    addVault(state, vualt) {
       state.vault.push(vault)
     }
   },
@@ -74,12 +76,12 @@ export default new Vuex.Store({
           console.log('Login Failed')
         })
     },
-    logout({commit, dispatch}, creds){
+    logout({ commit, dispatch }, creds) {
       auth.delete('logout')
-          .then(res=>{
-            commit('setUser', res.data)
-            router.push({name: 'login'})
-          })
+        .then(res => {
+          commit('setUser', res.data)
+          router.push({ name: 'login' })
+        })
     },
     /*getUser({commit, dispatch}, payload){
       auth.get('authenticate')
@@ -110,23 +112,23 @@ export default new Vuex.Store({
     },
     //#endregion
     //#region --Vaults--
-    createVault({commit, dispatch}, payload){
+    createVault({ commit, dispatch }, payload) {
       api.post('vaults', payload)
-          .then(res =>{
-            commit('addVault', res.data)
-          })
+        .then(res => {
+          commit('addVault', res.data)
+        })
     },
-    getMyVaults({commit, dispatch}, myVaults){
+    getMyVaults({ commit, dispatch }, myVaults) {
       let check = 'vaults'
-      if(myVaults){
+      if (myVaults) {
         check += '/myVaults'
       }
       api.get(check)
-          .then(res=>{
-            commit('setVaults', res.data)
-          })
+        .then(res => {
+          commit('setVaults', res.data)
+        })
     },
-    
+
     //#endregion
   }
 })

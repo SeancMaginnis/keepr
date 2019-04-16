@@ -6,6 +6,7 @@
                <button class="btn btn-outline-info" @click="addVault()">Create a Vault</button>
            </div>
        </div>
+        <div class="row"></div>
     </div>
 </template>
 

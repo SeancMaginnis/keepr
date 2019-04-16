@@ -4,12 +4,15 @@
         <div class="row justify-content-center">
             <h2>Keeps</h2>
             <button class="btn btn-outline-info" @click="myVault()">My Profile</button>
+            <button class="btn btn-outline-danger" @click="logout()">Logout</button>
 
         </div>
-
+        <div  class="row pt-4">
+        <div id="try" class="col-12">
+            
         <Keep v-for="keep in keeps" :keep="keep"></Keep>
-
-
+        </div>
+         </div>
 
 
 
@@ -42,13 +45,13 @@
                 this.$router.push({ name: "login" });
             }
         },
-        logout() {
-            this.$store.dispatch("logout");
-        },
         methods: {
             myVault() {
                 this.$router.push({ path: "/vaults" })
-            }
+            },
+            logout() {
+                this.$store.dispatch("logout");
+            },
         }
 
 
@@ -57,5 +60,11 @@
 </script>
 
 <style scoped>
-
+#try{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    
+    
+}
 </style>

@@ -1,5 +1,7 @@
 <template>
-    
+    <div class="Vault">
+        
+    </div>
 </template>
 
 <script>

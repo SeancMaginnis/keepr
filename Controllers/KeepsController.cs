@@ -51,7 +51,7 @@ namespace keepr.Controllers
     {
       keep.UserId = HttpContext.User.Identity.Name;
       Keep newKeep = _kr.CreateKeep(keep);
-      if (newKeep == null) { return BadRequest("Whoops SOmething didn't work"); }
+      if (newKeep == null) { return BadRequest("Whoops Something didn't work"); }
       return Ok(newKeep);
     }
 
