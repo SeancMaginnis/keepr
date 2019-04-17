@@ -7,46 +7,44 @@ using keepr.Models;
 namespace keepr.Repositories
 {
 
-    public class VaultKeepsRepository
+  public class VaultKeepsRepository
+  {
+    private readonly IDbConnection _db;
+
+    public VaultKeepsRepository(IDbConnection db)
     {
-        IDbConnection _db;
+      _db = db;
+    }
 
-        public VaultKeepsRepository(IDbConnection db)
-        {
-            _db = db;
-        }
-        public VaultKeep GetByVId(int id)
-        {
-            return _db.QueryFirstOrDefault<VaultKeep>("SELECT * FROM vaults WHERE id = @id", new {id});
-        }
+    public IEnumerable<Keep> GetVaultKeeps(int vaultId, string userId)
+    {
+      return _db.Query<Keep>(@"SELECT * FROM vaultkeeps vk
+             INNER JOIN keeps k on k.id = vk.keepId
+             WHERE(vaultId = @VaultId and vk.userId = @UserId)", new { vaultId, userId });
+    }
 
-        public IEnumerable<Vault> GetVaultKeeps(int id)
-        {
-            return _db.Query<Vault>("SELECT * FROM vaults WHERE id = @id", new {id});
-        }
-
-        public VaultKeep CreateVaultKeep(VaultKeep vaultKeep)
-        {
-            try
-            {
-                int id = _db.ExecuteScalar<int>(@"
+    public VaultKeep AddToVault(VaultKeep vaultKeep)
+    {
+      try
+      {
+        int id = _db.ExecuteScalar<int>(@"
                 INSERT INTO vaultkeeps (keepId, vaultId, userId)
                 VALUES (@KeepId, @VaultId, @UserId);
                 SELECT LAST_INSERT_ID();", vaultKeep);
-                vaultKeep.Id = id;
-                return vaultKeep;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return null;
-            }
-        }
-
-        public bool Delete(int id)
-        {
-            int success = _db.Execute("DELETE FROM vaultkeeps WHERE id = @id", new {id});
-            return success > 0;
-        }
+        vaultKeep.Id = id;
+        return vaultKeep;
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e);
+        return null;
+      }
     }
+
+    public bool Delete(int id)
+    {
+      int success = _db.Execute("DELETE FROM vaultkeeps WHERE id = @id", new { id });
+      return success > 0;
+    }
+  }
 }

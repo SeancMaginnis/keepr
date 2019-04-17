@@ -1,9 +1,7 @@
 using System;
 using keepr.Models;
-using keepr.Models;
 using Microsoft.AspNetCore.Mvc;
 using Dapper;
-using System;
 using System.Collections.Generic;
 using System.Data;
 

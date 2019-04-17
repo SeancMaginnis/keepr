@@ -24,10 +24,11 @@
             addVault() {
                 let payload ={
                     name: this.makeVault.name,
-                    description: this.makeVault.description
+                    description: this.makeVault.description,
+                    userId: this.$store.state.user.id,
                 }
                 console.log(payload)
-                this.$store.dispatch("createVault", payload).then((this.$router.push({path: '/vault'})))
+                this.$store.dispatch("createVault", payload).then(((this.$router.push({path: '/vault'}))))
             }
         }
     }

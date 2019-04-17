@@ -33,7 +33,7 @@
                     
                 }
                 console.log(payload)
-                this.$store.dispatch("createKeep", payload).then((this.$router.push({path: '/Keeps'})))
+                this.$store.dispatch("createKeep", payload).then(((this.$router.push({path: '/Keeps'}))))
 
             }
         }

@@ -39,6 +39,12 @@ namespace keepr.Repositories
         return null;
       }
     }
+
+    internal IEnumerable<Vault> GetAllVaults()
+    {
+      return _db.Query<Vault>("SELECT * FROM vaults");
+    }
+
     public bool Delete(int id)
     {
       int success = _db.Execute("DELETE FROM vaults WHERE id = @id", new { id });

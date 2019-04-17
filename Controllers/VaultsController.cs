@@ -18,6 +18,18 @@ namespace keepr.Controllers
       _vr = vr;
     }
 
+    [HttpGet]
+
+    public ActionResult<IEnumerable<Vault>> Get()
+    {
+      IEnumerable<Vault> Vaults = _vr.GetAllVaults();
+      if (Vaults == null)
+      {
+        return BadRequest();
+      }
+      return Ok(Vaults);
+    }
+
     //GET api/keeps/:id
     [HttpGet("{id}")]
     public ActionResult<Vault> Get(int id)

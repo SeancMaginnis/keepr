@@ -10,7 +10,6 @@
                    <Vault v-for="vault in vaults" :vault="vault"></Vault>
                </div>
            </div>
-               <Keep  v-for="keep in keeps" :keep="keep" ></Keep>
        </div>
         <div class="row"></div>
     </div>
@@ -18,10 +17,9 @@
 
 <script>
     import Vault from "../components/Vault"
-    import Keep from "../components/Keep";
     export default {
         name: "myVault",
-        components:{Keep, Vault},
+        components:{ Vault},
         methods: {
             addKeep(){
                 this.$router.push({path: '/addKeep'})
@@ -31,9 +29,6 @@
             }
         },
         computed:{
-            keeps(){
-                return this.$store.state.keeps;
-            },
             vaults(){
                 return this.$store.state.vaults;
             },

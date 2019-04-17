@@ -2,10 +2,10 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Axios from 'axios'
 import router from './router'
-import VueDragDrop from 'vue-drag-drop';
+
 
 Vue.use(Vuex)
-Vue.use(VueDragDrop)
+Vue.use(VueDraggable)
 
 let baseUrl = location.host.includes('localhost') ? '//localhost:5000/' : '/'
 
@@ -26,6 +26,11 @@ export default new Vuex.Store({
     user: {},
     keeps: [],
     vaults: [],
+    vaultkeeps: [],
+    nativeEvent: {},
+    items: [],
+    owner: null,
+    droptarget: null,
   },
   mutations: {
     setUser(state, user) {
@@ -37,12 +42,19 @@ export default new Vuex.Store({
     addKeep(state, keep) {
       state.keeps.push(keep)
     },
-    setMyVaults(state, vaults) {
-      state.vaults = vaults
+    setVaults(state, vaults){
+      state.vaults = vaults;
     },
-    addVault(state, vualt) {
-      state.vault.push(vault)
-    }
+    addVault(state, vault) {
+      state.vaults.push(vault)
+    },
+    setVaultKeeps(state, vaultkeeps){
+      state.vaultkeeps = vaultkeeps;
+    },
+    addVaultKeep(state, vaultkeeps){
+      state.vaultkeeps.push(vaultkeeps)
+    },
+    
   },
   actions: {
     //#region --Login--
@@ -50,7 +62,7 @@ export default new Vuex.Store({
       auth.post('register', newUser)
         .then(res => {
           commit('setUser', res.data)
-          router.push({ name: 'home' })
+          router.push({ name: 'keeps' })
         })
         .catch(e => {
           console.log('[registration failed] :', e)
@@ -60,7 +72,7 @@ export default new Vuex.Store({
       auth.get('authenticate')
         .then(res => {
           commit('setUser', res.data)
-          router.push({ name: 'home' })
+          router.push({ name: 'keeps' })
         })
         .catch(e => {
           console.log('not authenticated')
@@ -70,7 +82,7 @@ export default new Vuex.Store({
       auth.post('login', creds)
         .then(res => {
           commit('setUser', res.data)
-          router.push({ name: 'home' })
+          router.push({ name: 'keeps' })
         })
         .catch(e => {
           console.log('Login Failed')
@@ -83,12 +95,12 @@ export default new Vuex.Store({
           router.push({ name: 'login' })
         })
     },
-    /*getUser({commit, dispatch}, payload){
+    getUser({commit, dispatch}, payload){
       auth.get('authenticate')
           .then(res=>{
             commit('setUsers', res.data)
           })
-    },*/
+    },
     //#endregion
     //#region --Keeps--
     createKeep({ commit, dispatch }, payload) {
@@ -98,7 +110,7 @@ export default new Vuex.Store({
           commit("addKeep", res.data)
         })
     },
-    getKeeps({ commit, dispatch }) {
+    getKeeps({ commit, dispatch }, myKeeps) {
       api.get('keeps/')
         .then(res => {
           commit('setKeeps', res.data)
@@ -110,25 +122,18 @@ export default new Vuex.Store({
           dispatch('getKeeps')
         })
     },
+    
+    },
     //#endregion
     //#region --Vaults--
     createVault({ commit, dispatch }, payload) {
-      api.post('vaults', payload)
+      api.post('vault', payload)
         .then(res => {
           commit('addVault', res.data)
         })
     },
-    getMyVaults({ commit, dispatch }, myVaults) {
-      let check = 'vaults'
-      if (myVaults) {
-        check += '/myVaults'
-      }
-      api.get(check)
-        .then(res => {
-          commit('setVaults', res.data)
-        })
-    },
+    
 
     //#endregion
-  }
+  
 })

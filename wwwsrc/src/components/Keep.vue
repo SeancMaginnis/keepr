@@ -10,6 +10,7 @@
                             </div>
                            
                             <p class="card-text">{{keep.description}}</p>
+                            <button class="btn btn-outline-success" @click="deleteKeep(keep.id)">Delete</button>
                 </div>
             </div>
     </div>
@@ -18,8 +19,22 @@
 <script>
     export default {
         name: 'keep',
-        props: ["keep"]
+        props: ["keep"],
+        
+        
+        
+    methods:{
+        deleteKeep(keepId) {
+           this.$store.dispatch("deleteKeep", keepId);
+        }
+    },
+        computed: {
+            user() {
+                return this.$store.state.user;
+            }
+        }
     }
+    
 </script>
 
 <style scoped>
