@@ -1,9 +1,9 @@
 <template>
     <div class="kForm col">
-        <form @submit.prevent="addKeep">
-            <input type="text" placeholder="Name" v-model="makeKeep.name">
-            <input type="text" placeholder="Description" v-model="makeKeep.description">
-            <input type="text" placeholder="URL for Image" v-model="makeKeep.img">
+        <form @submit.prevent="createKeep">
+            <input type="text" placeholder="Name" v-model="newKeep.name">
+            <input type="text" placeholder="Description" v-model="newKeep.description">
+            <input type="text" placeholder="URL for Image" v-model="newKeep.img">
 
             <button class="btn btn-outline-danger" type="submit">Create Keep</button>
         </form>
@@ -15,25 +15,26 @@
 
 <script>
     export default {
-        name: "addKeep",
+        name: "createKeep",
         data() {
             return {
-                makeKeep: {}
+                newKeep: {}
             }
         },
 
 
 
         methods: {
-            addKeep(){
+            createKeep(){
                 let payload ={
-                    name: this.makeKeep.name,
-                    description: this.makeKeep.description,
-                    img: this.makeKeep.img,
+                    userId: this.$store.state.user.id,
+                    name: this.newKeep.name,
+                    description: this.newKeep.description,
+                    img: this.newKeep.img,
                     
                 }
                 console.log(payload)
-                this.$store.dispatch("createKeep", payload).then(((this.$router.push({path: '/Keeps'}))))
+                this.$store.dispatch("createKeep", payload)
 
             }
         }

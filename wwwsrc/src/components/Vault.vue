@@ -4,7 +4,8 @@
           <div class="card" style="width: 18rem;">
               <div class="card-body">
                   <h5 class="card-title">{{vault.name}}</h5>
-                  <h6 class="card-subtitle mb-2 text-muted">{{vault.description}}</h6>
+                  <h6 class="card-text">{{vault.description}}</h6>
+                  <button class="btn btn-outline-danger" @click="deleteVault(vault.id)">Delete</button>
               </div>
           </div>
       </div>  
@@ -14,7 +15,15 @@
 <script>
     export default {
         name: "vault",
-        props: ["vault"]
+        props: ["vault"],
+        
+        methods:{
+            deleteVault(vaultId){
+                debugger
+                this.$store.dispatch("deleteVault", vaultId);
+            }
+        },
+        
     }
 </script>
 

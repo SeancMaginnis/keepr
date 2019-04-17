@@ -1,7 +1,7 @@
+using System;
 using keepr.Models;
 using Microsoft.AspNetCore.Mvc;
 using Dapper;
-using System;
 using System.Collections.Generic;
 using System.Data;
 
@@ -25,12 +25,12 @@ namespace keepr.Repositories
     {
       try
       {
-        int id = _db.ExecuteScalar<int>(@"
-          INSERT INTO vaults (title, description, userId)
-          VALUES(@Title, @Description, @UserId);
+        int Id = _db.ExecuteScalar<int>(@"
+          INSERT INTO keeps (name, description, userId)
+          VALUES (@Name, @Description, @UserId);
           SELECT LAST_INSERT_ID();
           ", vault);
-        vault.Id = id;
+        vault.Id = Id;
         return vault;
       }
       catch (Exception e)
@@ -40,7 +40,7 @@ namespace keepr.Repositories
       }
     }
 
-    internal IEnumerable<Vault> GetAllVaults()
+    public IEnumerable<Vault> GetAllVaults()
     {
       return _db.Query<Vault>("SELECT * FROM vaults");
     }

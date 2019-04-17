@@ -1,8 +1,8 @@
 <template>
     <div class="vForm col">
-        <form @submit="addVault">
-            <input type="text" placeholder="Title" v-model="makeVault.name">
-            <input type="text" placeholder="Description" v-model="makeVault.description">
+        <form @submit.prevent="createVault">
+            <input type="text" placeholder="Title" v-model="newVault.name">
+            <input type="text" placeholder="Description" v-model="newVault.description">
             <button class="btn btn-outline-success" type="submit">Create Vault</button>
         </form>
     
@@ -14,21 +14,21 @@
 
 <script>
     export default {
-        name: "addVault",
+        name: "createVault",
         data(){
             return {
-                makeVault: {}
+                newVault: {}
             }
         },
         methods: {
-            addVault() {
+            createVault() {
                 let payload ={
-                    name: this.makeVault.name,
-                    description: this.makeVault.description,
                     userId: this.$store.state.user.id,
+                    name: this.newVault.name,
+                    description: this.newVault.description,
                 }
                 console.log(payload)
-                this.$store.dispatch("createVault", payload).then(((this.$router.push({path: '/vault'}))))
+                this.$store.dispatch("createVault", payload)
             }
         }
     }

@@ -28,11 +28,7 @@
            this.$store.dispatch("deleteKeep", keepId);
         }
     },
-        computed: {
-            user() {
-                return this.$store.state.user;
-            }
-        }
+        
     }
     
 </script>

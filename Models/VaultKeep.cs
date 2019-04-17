@@ -9,10 +9,10 @@ namespace keepr.Models
     [Required]
     public string UserId { get; set; }
     [Required]
-    [Range(1, int.MaxValue)]
+
     public int VaultId { get; set; }
     [Required]
-    [Range(1, int.MaxValue)]
+
     public int KeepId { get; set; }
   }
 }
