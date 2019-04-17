@@ -29,7 +29,8 @@
                 let payload ={
                     name: this.makeKeep.name,
                     description: this.makeKeep.description,
-                    img: this.makeKeep.img
+                    img: this.makeKeep.img,
+                    
                 }
                 console.log(payload)
                 this.$store.dispatch("createKeep", payload).then((this.$router.push({path: '/Keeps'})))

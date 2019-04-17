@@ -52,6 +52,7 @@
             logout() {
                 this.$store.dispatch("logout");
             },
+            
         }
 
 

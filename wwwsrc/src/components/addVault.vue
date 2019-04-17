@@ -27,7 +27,7 @@
                     description: this.makeVault.description
                 }
                 console.log(payload)
-                this.$store.dispatch("createVault", payload).then((this.$router.push({path: '/Vault'})))
+                this.$store.dispatch("createVault", payload).then((this.$router.push({path: '/vault'})))
             }
         }
     }
