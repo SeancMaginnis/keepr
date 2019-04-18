@@ -2,8 +2,6 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-
-                <AddVault></AddVault>
             </div>
             <div class="row">
                 <div class="col">

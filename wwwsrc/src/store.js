@@ -47,12 +47,12 @@ export default new Vuex.Store({
     addVault(state, vault) {
       state.vaults.push(vault)
     },
-   /* setVaultKeeps(state, vaultkeeps) {
-      state.vaultkeeps = vaultkeeps;
-    },
-    addVaultKeep(state, vaultkeeps) {
-      state.vaultkeeps.push(vaultkeeps)
-    },*/
+    /* setVaultKeeps(state, vaultkeeps) {
+       state.vaultkeeps = vaultkeeps;
+     },
+     addVaultKeep(state, vaultkeeps) {
+       state.vaultkeeps.push(vaultkeeps)
+     },*/
 
   },
   actions: {
@@ -121,6 +121,7 @@ export default new Vuex.Store({
         })
     },
     createVault({ commit, dispatch }, payload) {
+      debugger
       api.post('vaults', payload)
         .then(res => {
           commit('addVault', res.data)

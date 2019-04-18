@@ -50,7 +50,7 @@ namespace keepr.Controllers
 
     public ActionResult<Vault> Create([FromBody] Vault vault)
     {
-
+      string userId = HttpContext.User.Identity.Name;
       Vault newVault = _vr.CreateVault(vault);
       if (newVault == null) { return BadRequest("Whoops Something didn't work"); }
       return Ok(newVault);

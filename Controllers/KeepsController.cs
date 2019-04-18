@@ -46,10 +46,9 @@ namespace keepr.Controllers
     }
 
     [HttpPost]
-    [Authorize]
     public ActionResult<Keep> Create([FromBody] Keep keep)
     {
-
+      keep.UserId = HttpContext.User.Identity.Name;
       Keep newKeep = _kr.CreateKeep(keep);
       if (newKeep == null) { return BadRequest("Whoops Something didn't work"); }
       return Ok(newKeep);

@@ -5,11 +5,12 @@ import store from './store'
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import VueDraggable from 'vue-draggable'
+import Navbar from "./components/Navbar";
 
 Vue.config.productionTip = false
 
 new Vue({
   router,
-  store,
+  store, 
   render: h => h(App)
 }).$mount('#app')
