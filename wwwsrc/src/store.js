@@ -44,15 +44,15 @@ export default new Vuex.Store({
     setVaults(state, vaults) {
       state.vaults = vaults;
     },
-    addVault(state, vault) {
+    addVaults(state, vault) {
       state.vaults.push(vault)
     },
-    /* setVaultKeeps(state, vaultkeeps) {
-       state.vaultkeeps = vaultkeeps;
+     setVaultKeeps(state, allKeeps) {
+       state.vaultkeeps[allKeeps.vaultId] = allKeeps.keeps
      },
-     addVaultKeep(state, vaultkeeps) {
-       state.vaultkeeps.push(vaultkeeps)
-     },*/
+     addVaultKeep(state, vaultkeep) {
+       state.vaultkeeps.find(vault => vault.vaultId == vaultkeep.vaultId).keeps = vaultkeep.keeps
+     },
 
   },
   actions: {
@@ -124,23 +124,69 @@ export default new Vuex.Store({
       debugger
       api.post('vaults', payload)
         .then(res => {
-          commit('addVault', res.data)
+          commit('addVaults', res.data)
         })
     },
-    getVaults({ commit, dispatch }) {
-      api.get('vaults/')
+    getVaults({ commit, dispatch }, myVaults) {
+      api.get('vaults')
         .then(res => {
           commit('setVaults', res.data)
         })
     },
+    /*getVaults({ commit, dispatch }, myVaults) {
+      let query = 'vaults'
+      if (myVaults){
+        query += '/myVaults'
+      }
+      api.get('query')
+          .then(res => {
+            let user = res.data.map(vault ={
+              if(!vault.userId){
+              vault.userId = {}
+            }
+            return vault
+          })
+            commit('setVaults', user)
+          })
+    },*/
     deleteVault({ commit, dispatch }, payload) {
       api.delete('vaults/' + payload)
         .then(res => {
           dispatch('getVaults')
         })
+    },
+    addToVault({commit, dispatch}, payload){
+      api.post('vaultkeeps/'+ payload.vaultId, payload)
+          .then(res=>{
+            dispatch('getVaultKeeps', payload.vaultId)
+            dispatch('getVaults')
+          })
+    },
+    getVaultKeeps({commit, dispatch}, payload){
+      api.get("vaultkeeps/" + payload + "/keeps")
+          .then(res=>{
+            let newPayload = {
+              keeps: res.data,
+              vaultId: payload
+            }
+            commit("setVaultKeeps", newPayload)
+          })
+    },
+    removeFromVault({commit, dispatch}, payload){
+      api.delete('vaultkeeps/'+ payload.vaultId, payload)
+          .then(res=>{
+            dispatch('getVaultKeeps', payload.vaultId)
+          })
     }
+    
 
-  }
+  },
   //#endregion
-
+   /*getters: {
+    myKeeps(state){
+      debugger
+      let mine = state.keeps.filter(k => k.userId[state.user.id])
+      return mine || []
+    }
+   }*/
 })

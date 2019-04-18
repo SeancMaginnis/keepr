@@ -34,23 +34,13 @@ namespace keepr.Controllers
       return Ok(allVaults);
     }
 
-    //GET api/keeps/:id
-    [HttpGet("{id}")]
-    public ActionResult<Vault> Get(int id)
-    {
-      Vault foundVault = _vr.GetById(id);
-      if (foundVault == null)
-      {
-        BadRequest();
-      }
-      return Ok(foundVault);
-    }
+
 
     [HttpPost]
 
     public ActionResult<Vault> Create([FromBody] Vault vault)
     {
-      string userId = HttpContext.User.Identity.Name;
+      vault.UserId = HttpContext.User.Identity.Name;
       Vault newVault = _vr.CreateVault(vault);
       if (newVault == null) { return BadRequest("Whoops Something didn't work"); }
       return Ok(newVault);

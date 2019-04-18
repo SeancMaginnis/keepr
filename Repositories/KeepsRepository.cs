@@ -1,6 +1,5 @@
 using System;
 using keepr.Models;
-using Microsoft.AspNetCore.Mvc;
 using Dapper;
 using System.Collections.Generic;
 using System.Data;
@@ -21,12 +20,6 @@ namespace keepr.Repositories
       return _db.Query<Keep>("SELECT * FROM keeps");
     }
 
-    public Keep GetbyId(int Id)
-    {
-
-
-      return _db.QueryFirstOrDefault<Keep>("SELECT * FROM keeps WHERE id = @Id", new { Id });
-    }
 
     public Keep CreateKeep(Keep keep)
     {

@@ -1,5 +1,5 @@
 <template>
-    <div class="login container-fluid vh-100">
+    <div class="login container-fluid">
         <form v-if="loginForm" @submit.prevent="loginUser">
             <input type="email" v-model="creds.email" placeholder="email">
             <input type="password" v-model="creds.password" placeholder="password">
@@ -16,7 +16,11 @@
             <p v-else>Already have an account click to Login</p>
         </div>
         <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 clean">
             <Keep v-for="keep in keeps" :keep="keep"></Keep>
+            </div>
+            </div>
         </div>
     </div>
 </template>
@@ -34,6 +38,7 @@
         },
         data() {
             return {
+                lview: false,
                 loginForm: true,
                 creds: {
                     email: "",
@@ -63,7 +68,13 @@
 </script>
 
 <style>
+    .clean{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    
     .login{
-        background-image: url("https://images.unsplash.com/photo-1551300338-2a3557b14a71?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1405&q=80");
+        ;
     }
 </style>

@@ -33,17 +33,6 @@ namespace keepr.Controllers
       return Ok(allKeeps);
     }
 
-    //GET api/keeps/:id
-    [HttpGet("{id}")]
-    public ActionResult<Keep> GetOne(int id)
-    {
-      Keep foundKeep = _kr.GetbyId(id);
-      if (foundKeep == null)
-      {
-        return BadRequest();
-      }
-      return Ok(foundKeep);
-    }
 
     [HttpPost]
     public ActionResult<Keep> Create([FromBody] Keep keep)
