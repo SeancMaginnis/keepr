@@ -30,7 +30,7 @@ namespace keepr.Controllers
       return Ok(VaultKeeps);
     }
 
-    [HttpPost("{id}")]
+    [HttpPost("{vaultid}")]
     public ActionResult<Vault> AddKeep([FromBody] VaultKeep vaultKeep)
     {
       VaultKeep newVaultKeep = _vkr.AddToVault(vaultKeep);
