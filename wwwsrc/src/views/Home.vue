@@ -58,12 +58,13 @@
 
 <script>
     import Keep from "../components/Keep";
+    import Vault from "../components/Vault";
 
 
     export default {
         name: "home",
-        props: [keep],
-        components: { Keep },
+        props: ["keep", "id"],
+        components: { Keep, Vault },
         data() {
             return {
                 newKeep: {}
@@ -74,7 +75,7 @@
             //blocks users not logged in
             if (!this.$store.state.user.id) {
                 this.$router.push({ name: "login" });
-                this.$store.dispatch("getPublic");
+                this.$store.dispatch("getVaults");
 
             }
         },
@@ -82,11 +83,12 @@
             keeps() {
                 return this.$store.state.keeps
             },
+            vaults() {
+                return this.$store.state.vaults
+            },
         },
         methods: {
-            myVault() {
-                this.$router.push({ path: "/vault" })
-            },
+            
             createKeep() {
                 let payload = {
                     name: this.newKeep.name,

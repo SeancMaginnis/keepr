@@ -6,8 +6,12 @@
                 <h5 class="card-title">{{keep.name}}</h5>
                 <p class="card-text">{{keep.description}}</p>
                 <div class="row">
-                    <i class="fab fa-accessible-icon"></i>
-                    <i class="fas fa-allergies"></i>
+                    
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add to Vault</button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" @click="addToVault(vault.id, keep.id)" v-for="vault in vaults">{{vault.name}}</a>
+                        </div>
+                    
                 </div>
             </div>
         </div>
@@ -17,12 +21,27 @@
 <script>
     export default {
         name: 'keep',
-        props: ["keep"],
+        props: ['keep', 'vault', 'id'],
         data() {
             return {
                
             }
         },
+        computed: {
+            vaults(){
+                return this.$store.state.vaults
+            }
+        },
+        methods: {
+            addToVault(vaultId, keepId){
+                let payload = {
+                    VaultId: vaultId,
+                    KeepId: keepId,
+                }
+                this.$store.dispatch("addToVault", payload)
+
+            }
+        }
         
             
         

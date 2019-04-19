@@ -17,22 +17,22 @@ namespace keepr.Repositories
       _db = db;
     }
 
-    public IEnumerable<Keep> GetVaultKeeps(int vaultId, string userId)
+    public IEnumerable<Keep> GetVaultKeeps(int VaultId, string UserId)
     {
       return _db.Query<Keep>(@"SELECT * FROM vaultkeeps vk
              INNER JOIN keeps k on k.id = vk.keepId
-             WHERE(vaultId = @VaultId and vk.userId = @UserId)", new { vaultId, userId });
+             WHERE(vaultId = @VaultId and vk.userId = @UserId)", new { VaultId, UserId });
     }
 
     public VaultKeep AddToVault(VaultKeep vaultKeep)
     {
       try
       {
-        int id = _db.ExecuteScalar<int>(@"
-                INSERT INTO vaultkeeps (keepId, vaultId, userId)
-                VALUES (@KeepId, @VaultId, @UserId);
+        int Id = _db.ExecuteScalar<int>(@"
+                INSERT INTO vaultkeeps ( vaultId, keepId, userId)
+                VALUES ( @VaultId,@KeepId, @UserId);
                 SELECT LAST_INSERT_ID();", vaultKeep);
-        vaultKeep.Id = id;
+        vaultKeep.Id = Id;
         return vaultKeep;
       }
       catch (Exception e)
@@ -42,9 +42,9 @@ namespace keepr.Repositories
       }
     }
 
-    public bool Delete(int id)
+    public bool Delete(int VaultId, int KeepId, string UserId)
     {
-      int success = _db.Execute("DELETE FROM vaultkeeps WHERE id = @id", new { id });
+      int success = _db.Execute("DELETE FROM vaultkeeps WHERE vaultId = @VaultId AND keepId = @KeepId AND userId = @UserId", new { VaultId, KeepId, UserId });
       return success > 0;
     }
   }

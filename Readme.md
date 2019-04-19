@@ -55,7 +55,7 @@ What this site is already pretty if you follow the mocks :wink: Make sure the fe
 		- Be automatically logged on page refresh/
 		- Create and Delete Keeps/
 		- Create and Delete Vaults/
-		- Only Delete things they created
+		- Only Delete things they created /
 		- Add Keeps to Vaults
 		- Remove Keeps from Vaults
 

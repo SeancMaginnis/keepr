@@ -1,6 +1,6 @@
 <template>
     <div class="coolNav">
-    <nav class="navbar navbar-expand-lg bg">
+    <nav class="navbar navbar-expand-sm bg">
         <a class="navbar-brand" href="#">Sean's Keepr</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,7 +13,7 @@
                     <button class="btn" @click="goHome">Home </button>
                 </li>
                 <li class="nav-item active">
-                    <button class="btn bt" @click="myProfile">My Profile</button>
+                    <button class="btn bt" @click="myVault">My Profile</button>
                 </li>
                 <li class="nav-item active">
                     <button class="btn " @click="logout()">Logout</button>
@@ -31,14 +31,16 @@
         name: "navbar",
         data(){
             return{
-                inVault: false,
+                
             }
         },
         methods: {
             goHome(){
                 this.$router.push('/')
+                this.$store.dispatch("getPublic")
+                
             },
-            myProfile(){
+            myVault(){
                 this.$router.push('/vault')
             },
             logout() {

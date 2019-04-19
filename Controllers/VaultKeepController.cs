@@ -21,8 +21,8 @@ namespace keepr.Controllers
     [HttpGet("{vaultId}/keeps")]
     public ActionResult<IEnumerable<Keep>> Get(int vaultId)
     {
-      string userId = HttpContext.User.Identity.Name;
-      IEnumerable<Keep> VaultKeeps = _vkr.GetVaultKeeps(vaultId, userId);
+      string UserId = HttpContext.User.Identity.Name;
+      IEnumerable<Keep> VaultKeeps = _vkr.GetVaultKeeps(vaultId, UserId);
       if (VaultKeeps == null)
       {
         return BadRequest();
@@ -30,9 +30,10 @@ namespace keepr.Controllers
       return Ok(VaultKeeps);
     }
 
-    [HttpPost("{vaultid}")]
+    [HttpPost("{vaultId}")]
     public ActionResult<Vault> AddKeep([FromBody] VaultKeep vaultKeep)
     {
+      string UserId = HttpContext.User.Identity.Name;
       VaultKeep newVaultKeep = _vkr.AddToVault(vaultKeep);
       if (newVaultKeep == null)
       {
@@ -42,10 +43,11 @@ namespace keepr.Controllers
       return Ok(newVaultKeep);
     }
 
-    [HttpDelete("{id}")]
-    public ActionResult<string> Delete(int id)
+    [HttpDelete("{vaultId}/deletekeep/{keepId}")]
+    public ActionResult<string> Delete(int VaultId, int KeepId)
     {
-      bool success = _vkr.Delete(id);
+      string UserId = HttpContext.User.Identity.Name;
+      bool success = _vkr.Delete(VaultId, KeepId, UserId);
       if (!success)
       {
         return BadRequest();

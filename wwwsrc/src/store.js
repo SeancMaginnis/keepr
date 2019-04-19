@@ -27,10 +27,8 @@ export default new Vuex.Store({
     keeps: [],
     vaults: [],
     myVaults: [],
-    nativeEvent: {},
-    items: [],
-    owner: null,
-    droptarget: null,
+    vaultkeeps: {},
+    
     privateKeeps: [],
   },
   mutations: {
@@ -138,7 +136,6 @@ export default new Vuex.Store({
       api.post('vaults', payload)
         .then(res => {
           commit('addVaults', res.data)
-          dispatch('getPublic')
         })
     },
     getVaults({ commit, dispatch }) {
@@ -153,24 +150,29 @@ export default new Vuex.Store({
           dispatch('getVaults')
         })
     },
+    
     addToVault({ commit, dispatch }, payload) {
-      api.post('vaultkeeps/' + payload.vaultId, payload)
-        .then(res => {
-          dispatch('getVaultKeeps', payload.vaultId)
-          dispatch('getVaultsById')
-        })
+      debugger
+      api.post('/' + payload.VaultId, payload)
+          .then(res=>{
+            dispatch("getVaults")
+          })
+      dispatch("getVaultKeeps", payload.VaultId)
+        
     },
     getVaultKeeps({ commit, dispatch }, payload) {
-      api.get("vaultkeeps/" + payload + "/keeps")
+      debugger
+      api.get("/vault/"  + payload + "/keeps")
         .then(res => {
           let newPayload = {
-            keeps: res.data,
+            keep: res.data,
             vaultId: payload
           }
           commit("setVaultKeeps", newPayload)
         })
     },
     removeFromVault({ commit, dispatch }, payload) {
+      debugger
       api.delete('vaultkeeps/' + payload.vaultId, payload)
         .then(res => {
           dispatch('getVaultKeeps', payload.vaultId)

@@ -9,11 +9,11 @@
                     <i class="fab fa-accessible-icon"></i>
                     <i class="fas fa-allergies"></i>
                 </div>
-            <button type="button" class="btn btn-primary" @click="" data-toggle="modal" data-target="#singleKeep">
-                View Keep
-            </button>
+                <button type="button" class="btn btn-primary" @click="" data-toggle="modal" data-target="#singleKeep">
+                    View Keep
+                </button>
 
-                <button class="btn" @click="deleteKeep()">Delete</button>
+                <button class="btn" @click="removeFromVault(keepId)">Delete</button>
             </div>
 
             <!-- Modal -->
@@ -31,12 +31,8 @@
                                 <img class="card-img-top" style="" :src="keep.img" alt="Card image cap">
                                 <div class="card-body">
                                     <p class="card-text">{{keep.description}}</p>
-                                    
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add to Vault</button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" @click="addToVault(vault)" v-for="vault in vaults">{{vault.name}}</a>
+
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -44,59 +40,22 @@
             </div>
         </div>
     </div>
-        </div>
-    </div>
 </template>
 
 <script>
     export default {
-        name: 'myKeep',
-        props: ["keep", "id", 'vault'],
-        data() {
-            return {
-
-            }
-        },
-        computed: {
-          vaults(){
-              return this.$store.state.vaults
-          }  
-        },
-
-
+        name: "vaultkeeps",
+        props: ["keep", ],
+    
         methods:{
-            deleteKeep() {
-                let payload = {
-                    keepId: this.keep.id
-                }
-                this.$store.dispatch("deleteKeep", payload);
-            },
-            addToVault(vault){
-                debugger
-                let payload = {
-                    vaultId: vault.id,
-                    userId: this.$store.state.user.id,
-                    keepId: this.keep.id,
-                }
-                this.$store.dispatch("addToVault", payload)
+            removeFromVault(keepId){
                 
             }
-        },
-
-
+        }
     }
-
+    
 </script>
 
 <style scoped>
-    .card {
-        box-shadow: 0 4px 8px 0 black;
-    }
-    .btn{
-        color: #f90092;
-        outline-color: black;
-    }
-    .btn:hover{
-        color: #9854bb;
-    }
+
 </style>

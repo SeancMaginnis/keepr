@@ -33,15 +33,15 @@
     </div>
             <section class="row">
                 <div class="col">
-                    <vault v-for="vault in vaults" :vault="vault"></vault>
+                    <vault  v-for="vault in vaults" :vault="vault"></vault>
+                    
                 </div>
             </section>
         <section class="row d-flex justify-content-center">
             <h1>Your Keeps</h1>
         </section>
-            <div class="row">
-            <myKeeps v-for="keep in keeps" :keep="keep"></myKeeps>
-    </div>
+           
+        
         </div>
       
 </template>
@@ -49,11 +49,13 @@
 <script>
     import Vault from "../components/Vault";
     
+    
     import MyKeeps from "../components/MyKeeps";
+    
 
     export default {
-        name: "myVault",
-        props: ["myKeeps", "id"],
+        name: 'myVault',
+        props: ["myKeeps"],
         components: { Vault, MyKeeps },
         data(){
             return{
@@ -65,9 +67,7 @@
             vaults() {
                 return this.$store.state.vaults
             },
-            keeps(){
-                return this.$store.state.keeps
-            }
+            
 
         },
         mounted() {
@@ -75,7 +75,7 @@
                 this.$router.push({name: "login"});
             }
             this.$store.dispatch("getVaults");
-            this.$store.dispatch("getUserKeep")
+            
             
 
         },
@@ -87,7 +87,8 @@
                 }
                 this.$store.dispatch("createVault", payload);
                 
-                }
+                },
+            
                 
             }
         
