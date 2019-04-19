@@ -5,7 +5,7 @@
               <div class="card-body">
                   <h5 class="card-title">{{vault.name}}</h5>
                   <h6 class="card-text">{{vault.description}}</h6>
-                  <button class="btn btn-outline-danger" @click="deleteVault(vault.id)">Delete</button>
+                  <button class="btn btn-outline" @click="deleteVault(vault.id)">Delete</button>
               </div>
           </div>
       </div>  
@@ -29,4 +29,5 @@
 
 <style scoped>
 
+    
 </style>

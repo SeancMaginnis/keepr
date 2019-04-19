@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#vaultModal">
+                <button type="button" class="btn" data-toggle="modal" data-target="#vaultModal">
                     Create Vault
                 </button>
 
@@ -36,37 +36,25 @@
                     <vault v-for="vault in vaults" :vault="vault"></vault>
                 </div>
             </section>
-       <!-- <div class="row cen">
-            <div id="keep" class="col" v-for="(keeps, index) in myKeeps" :key="index">
-                <div class="row">
-                    <div class="col">
-                        <img src="myKeeps.img" class="photo" alt="">
-                    </div>
-                </div>
-                <div class="row cen">
-                    <div class="col">
-                        <h4>{{myKeeps.name}}</h4>
-                    </div>
-                </div>
-                <div class="row cen">
-                    <div class="col">
-                        <p>{{myKeeps.description}}</p>
-                    </div>
-                </div>
-                <button @click="deleteKeep(keep.id)">Delete</button>
-            </div>
-        </div>-->
+        <section class="row d-flex justify-content-center">
+            <h1>Your Keeps</h1>
+        </section>
+            <div class="row">
+            <myKeeps v-for="keep in keeps" :keep="keep"></myKeeps>
+    </div>
         </div>
       
 </template>
 
 <script>
     import Vault from "../components/Vault";
+    
+    import MyKeeps from "../components/MyKeeps";
 
     export default {
         name: "myVault",
-        props: ["keep"],
-        components: { Vault },
+        props: ["myKeeps", "id"],
+        components: { Vault, MyKeeps },
         data(){
             return{
                 newVault: {}
@@ -77,9 +65,9 @@
             vaults() {
                 return this.$store.state.vaults
             },
-            /*myKeeps(){
-                return this.$store.getters.myKeeps;
-            },*/
+            keeps(){
+                return this.$store.state.keeps
+            }
 
         },
         mounted() {
@@ -87,9 +75,8 @@
                 this.$router.push({name: "login"});
             }
             this.$store.dispatch("getVaults");
-            if(!this.$store.state.keeps.length){
-            this.$store.dispatch("getKeeps")
-            }
+            this.$store.dispatch("getUserKeep")
+            
 
         },
         methods: {
@@ -112,4 +99,11 @@
     display: flex;
     justify-content: center;
 }
+.btn{
+     color: #f90092;
+ }
+.btn:hover{
+    color: #9854bb;
+}
+
 </style>

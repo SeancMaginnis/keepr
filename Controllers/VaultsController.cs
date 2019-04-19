@@ -24,9 +24,10 @@ namespace keepr.Controllers
 
     [HttpGet]
 
-    public ActionResult<IEnumerable<Vault>> Get()
+    public ActionResult<IEnumerable<Vault>> GetVaultsById()
     {
-      IEnumerable<Vault> allVaults = _vr.GetAllVaults();
+      string UserId = HttpContext.User.Identity.Name;
+      IEnumerable<Vault> allVaults = _vr.GetVaults(UserId);
       if (allVaults == null)
       {
         return BadRequest();

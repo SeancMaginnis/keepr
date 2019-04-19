@@ -10,15 +10,15 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    <button class="btn" @click="goHome">Home </button>
                 </li>
-                
+                <li class="nav-item active">
+                    <button class="btn bt" @click="myProfile">My Profile</button>
+                </li>
+                <li class="nav-item active">
+                    <button class="btn " @click="logout()">Logout</button>
+                </li>
             </ul>
-            <!--<span class="justify-content-center float-left ">
-                <b  class="nav-link" data-toggle="modal" data-target="#exampleModal">
-                    Create Keep
-                </b>
-            </span>-->
         </div>
     </nav>
     </div>
@@ -33,6 +33,17 @@
             return{
                 inVault: false,
             }
+        },
+        methods: {
+            goHome(){
+                this.$router.push('/')
+            },
+            myProfile(){
+                this.$router.push('/vault')
+            },
+            logout() {
+                this.$store.dispatch("logout");
+            },
         }
         
         
@@ -49,5 +60,11 @@
 }
     .bg{
         background-color: #191917;
+    }
+    .btn{
+        color: #f90092;
+    }
+     .btn:hover{
+        color: #9854bb;
     }
 </style>

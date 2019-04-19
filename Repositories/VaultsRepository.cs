@@ -36,9 +36,9 @@ namespace keepr.Repositories
       }
     }
 
-    public IEnumerable<Vault> GetAllVaults()
+    public IEnumerable<Vault> GetVaults(string UserId)
     {
-      return _db.Query<Vault>("SELECT * FROM vaults");
+      return _db.Query<Vault>("SELECT * FROM vaults WHERE userId = @UserId", new { UserId });
     }
 
     public bool Delete(int id)

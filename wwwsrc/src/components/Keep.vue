@@ -9,8 +9,6 @@
                     <i class="fab fa-accessible-icon"></i>
                     <i class="fas fa-allergies"></i>
                 </div>
-
-                <button class="btn btn-outline-success" @click="deleteKeep(keep.id)">Delete</button>
             </div>
         </div>
     </div>
@@ -22,17 +20,11 @@
         props: ["keep"],
         data() {
             return {
-                lview: true,
+               
             }
         },
         
-        
-        
-    methods:{
-        deleteKeep(keepId) {
-           this.$store.dispatch("deleteKeep", keepId);
-        }
-    },
+            
         
     }
     

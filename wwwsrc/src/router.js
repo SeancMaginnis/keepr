@@ -4,7 +4,8 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 // @ts-ignore
 import Login from './views/Login.vue'
-import MyVault from "./views/MyVault";
+// @ts-ignore
+import MyVault from "./views/MyVault.vue";
 
 
 
@@ -24,11 +25,11 @@ export default new Router({
     },
     {
 
-      path: '/vault',
+      path: '/vault/',
       name: 'myVault',
       component: MyVault,
     },
-    
+
   ]
 
 })

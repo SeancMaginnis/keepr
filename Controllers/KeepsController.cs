@@ -21,16 +21,30 @@ namespace keepr.Controllers
     }
 
     //GET api/keeps
-    [HttpGet]
+    [HttpGet("public")]
 
-    public ActionResult<IEnumerable<Keep>> Get()
+    public ActionResult<IEnumerable<Keep>> GetPublic()
     {
-      IEnumerable<Keep> allKeeps = _kr.GetAll();
+      IEnumerable<Keep> allKeeps = _kr.GetPublic();
       if (allKeeps == null)
       {
         return BadRequest();
       }
       return Ok(allKeeps);
+    }
+
+    [HttpGet("userId")]
+
+    public ActionResult<IEnumerable<Keep>> GetUserId()
+    {
+      string UserId = HttpContext.User.Identity.Name;
+      IEnumerable<Keep> userKeeps = _kr.GetUserId(UserId);
+      if (userKeeps == null)
+      {
+        return BadRequest();
+      }
+      return Ok(userKeeps);
+
     }
 
 

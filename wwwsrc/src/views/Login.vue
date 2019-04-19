@@ -18,8 +18,8 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 clean">
-            <Keep v-for="keep in keeps" :keep="keep"></Keep>
-            </div>
+                    <Keep v-for="keep in keeps" :keep="keep"></Keep>
+                </div>
             </div>
         </div>
     </div>
@@ -30,11 +30,12 @@
 
     export default {
         name: "login",
-        components:{Keep},
+        props: ["keep"],
+        components: { Keep },
         mounted() {
             //checks for valid session
             this.$store.dispatch("authenticate");
-            this.$store.dispatch("getKeeps");
+            this.$store.dispatch("getPublic");
         },
         data() {
             return {
@@ -68,13 +69,13 @@
 </script>
 
 <style>
-    .clean{
+    .clean {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
     }
-    
-    .login{
+
+    .login {
         ;
     }
 </style>
