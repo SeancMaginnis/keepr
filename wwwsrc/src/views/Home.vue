@@ -76,6 +76,7 @@
             if (!this.$store.state.user.id) {
                 this.$router.push({ name: "login" });
                 this.$store.dispatch("getVaults");
+                this.$store.dispatch("getPublic")
 
             }
         },

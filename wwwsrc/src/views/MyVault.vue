@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid justify-content-center">
         <div class="row">
             <div class="col-12">
                 <button type="button" class="btn" data-toggle="modal" data-target="#vaultModal">
@@ -31,8 +31,8 @@
                 
             </div>
     </div>
-            <section class="row">
-                <div class="col">
+            <section class="row ">
+                <div class="col d-flex justify-content-center">
                     <vault  v-for="vault in vaults" :vault="vault"></vault>
                     
                 </div>
@@ -40,6 +40,9 @@
         <section class="row d-flex justify-content-center">
             <h1>Your Keeps</h1>
         </section>
+        <div class="row">
+            <myKeeps v-for="keep in keeps" :keep="keep"></myKeeps>
+        </div>
            
         
         </div>
@@ -67,6 +70,9 @@
             vaults() {
                 return this.$store.state.vaults
             },
+            keeps(){
+                return this.$store.state.keeps
+            }
             
 
         },
@@ -74,7 +80,11 @@
             if (!this.$store.state.user.id) {
                 this.$router.push({name: "login"});
             }
-            this.$store.dispatch("getVaults");
+            this.$store.dispatch("getVaults")
+            this.$store.dispatch("getUserKeep")
+            
+           
+            
             
             
 

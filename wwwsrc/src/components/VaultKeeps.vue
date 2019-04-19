@@ -1,5 +1,6 @@
 <template>
-    <div class="Keep pt-4 px-3">
+    <div class="col-12">
+    <div class="Keep pt-4 px-3" >
         <div class="card px-3" style="width: 18rem;">
             <img class="card-img-top" style="" :src="keep.img" alt="Card image cap">
             <div class="card-body">
@@ -13,9 +14,10 @@
                     View Keep
                 </button>
 
-                <button class="btn" @click="removeFromVault(keepId)">Delete</button>
-            </div>
-
+                <button class="btn" @click="removeFromVault(keep.id)">Delete</button>
+            
+    </div>
+    </div>
             <!-- Modal -->
             <div class="modal fade" id="singleKeep" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -36,6 +38,7 @@
                             </div>
                         </div>
                     </div>
+                
                 </div>
             </div>
         </div>
@@ -44,14 +47,25 @@
 
 <script>
     export default {
+        
         name: "vaultkeeps",
-        props: ["keep", ],
-    
+        props: ["keep", "vault"],
+        components: {},
         methods:{
-            removeFromVault(keepId){
-                
+            removeFromVault(keep){
+                debugger
+                let vaultId = +this.$route.params.VaultId
+                let payload = {
+                    KeepId: keep,
+                    VaultId: vaultId
+                    
+                }
+                this.$store.dispatch("removeFromVault", payload)
             }
-        }
+        },
+       mounted() {
+            this.$store.dispatch("getVaultKeeps", parseInt( this.$route.params.VaultId))
+       }
     }
     
 </script>

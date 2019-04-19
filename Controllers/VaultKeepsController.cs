@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using keepr.Models;
 using keepr.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace keepr.Controllers
@@ -8,6 +9,7 @@ namespace keepr.Controllers
 
   [Route("api/[controller]")]
   [ApiController]
+  [Authorize]
   public class VaultKeepsController : ControllerBase
   {
     private readonly VaultKeepsRepository _vkr;
@@ -18,7 +20,7 @@ namespace keepr.Controllers
     }
 
 
-    [HttpGet("{vaultId}/keeps")]
+    [HttpGet("{vaultId}")]
     public ActionResult<IEnumerable<Keep>> Get(int vaultId)
     {
       string UserId = HttpContext.User.Identity.Name;
@@ -30,10 +32,10 @@ namespace keepr.Controllers
       return Ok(VaultKeeps);
     }
 
-    [HttpPost("{vaultId}")]
+    [HttpPost]
     public ActionResult<Vault> AddKeep([FromBody] VaultKeep vaultKeep)
     {
-      string UserId = HttpContext.User.Identity.Name;
+      vaultKeep.UserId = HttpContext.User.Identity.Name;
       VaultKeep newVaultKeep = _vkr.AddToVault(vaultKeep);
       if (newVaultKeep == null)
       {
@@ -43,7 +45,7 @@ namespace keepr.Controllers
       return Ok(newVaultKeep);
     }
 
-    [HttpDelete("{vaultId}/deletekeep/{keepId}")]
+    [HttpDelete("{vaultId}/{keepId}")]
     public ActionResult<string> Delete(int VaultId, int KeepId)
     {
       string UserId = HttpContext.User.Identity.Name;

@@ -13,7 +13,7 @@
                     <button class="btn" @click="goHome">Home </button>
                 </li>
                 <li class="nav-item active">
-                    <button class="btn bt" @click="myVault">My Profile</button>
+                    <button class="btn bt" @click="myVault()">My Profile</button>
                 </li>
                 <li class="nav-item active">
                     <button class="btn " @click="logout()">Logout</button>
@@ -29,6 +29,7 @@
   
     export default {
         name: "navbar",
+        props:["vault"],
         data(){
             return{
                 
@@ -42,14 +43,16 @@
             },
             myVault(){
                 this.$router.push('/vault')
+               
             },
             logout() {
                 this.$store.dispatch("logout");
             },
-        }
+        },
         
-        
-        
+
+
+
     }
 </script>
 

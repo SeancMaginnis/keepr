@@ -1,6 +1,6 @@
 <template>
     <div class="Vault">
-      <div class="col-4" >
+      <div class="col-12" >
           <h5>{{vault.name}}</h5>
                   <h6>{{vault.description}}</h6>
                   <div class="row d-flex justify-content-around">
@@ -24,16 +24,19 @@
                 this.$store.dispatch("deleteVault", vaultId);
             },
             vaultKeep(id) {
-                this.$router.push('/vault/' + id + '/keeps')
-               
+                this.$router.push('vault/' + id)
+                
+                
             }
         },
         computed:{
-          keeps(){
-              return this.$store.state.vaultkeeps[this.vault.id]
-          }  
+            keeps(){
+                return this.$store.state.vaultkeeps[this.vault.id]
+            }
         },
-        
+
+
+
     }
 </script>
 

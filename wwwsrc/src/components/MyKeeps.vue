@@ -36,7 +36,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add to Vault</button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" @click="addToVault(vault)" v-for="vault in vaults">{{vault.name}}</a>
+                                <a class="dropdown-item" @click="addToVault(vault.id, keep.id)" v-for="vault in vaults">{{vault.name}}</a>
                             </div>
                         </div>
                     </div>
@@ -71,15 +71,13 @@
                 }
                 this.$store.dispatch("deleteKeep", payload);
             },
-            addToVault(vault){
-                debugger
+            addToVault(vaultId, keepId){
                 let payload = {
-                    vaultId: vault.id,
-                    userId: this.$store.state.user.id,
-                    keepId: this.keep.id,
+                    VaultId: vaultId,
+                    KeepId: keepId,
                 }
                 this.$store.dispatch("addToVault", payload)
-                
+
             }
         },
 
